@@ -189,15 +189,10 @@ export default function FishingGame() {
     <div className="relative w-full h-screen bg-slate-950 text-slate-100 font-sans flex flex-col overflow-hidden border-8 border-slate-900 mx-auto z-0 max-w-[1024px]">
       
       {/* Background Parallax / Scenery Simulation */}
-      <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-b from-sky-400 via-blue-500 to-blue-900">
-         {/* Clouds */}
-         <div className="absolute top-10 left-20 w-32 h-12 bg-white/20 rounded-full blur-xl"></div>
-         <div className="absolute top-20 right-40 w-48 h-16 bg-white/20 rounded-full blur-xl"></div>
-         {/* Water Surface */}
-         <div className="absolute bottom-0 inset-x-0 h-2/3 bg-blue-600/30 backdrop-blur-[2px]">
-           <div className="absolute top-0 w-full h-8 bg-white/10 opacity-50 skew-y-1"></div>
-         </div>
-      </div>
+      <div 
+        className="absolute inset-0 pointer-events-none z-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('https://res.cloudinary.com/doi1go8uu/image/upload/v1777386864/Untitled1660_20260428213258_aphgrs.png')` }}
+      ></div>
 
       {/* Header UI */}
       <nav className="h-16 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 flex items-center justify-between px-6 z-20 absolute top-0 left-0 right-0">

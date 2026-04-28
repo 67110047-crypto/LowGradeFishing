@@ -16,18 +16,18 @@ export function Minigame({ onWin, onLose }: MinigameProps) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === 'ArrowLeft' || e.code === 'KeyA') {
         keysRef.current.ArrowLeft = true;
         e.preventDefault();
       }
-      if (e.key === 'ArrowRight') {
+      if (e.key === 'ArrowRight' || e.code === 'KeyD') {
         keysRef.current.ArrowRight = true;
         e.preventDefault();
       }
     };
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') keysRef.current.ArrowLeft = false;
-      if (e.key === 'ArrowRight') keysRef.current.ArrowRight = false;
+      if (e.key === 'ArrowLeft' || e.code === 'KeyA') keysRef.current.ArrowLeft = false;
+      if (e.key === 'ArrowRight' || e.code === 'KeyD') keysRef.current.ArrowRight = false;
     };
 
     window.addEventListener('keydown', handleKeyDown, { passive: false });
