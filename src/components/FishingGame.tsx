@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ethers } from 'ethers';
 import { motion, AnimatePresence } from 'motion/react';
 import { Minigame } from './Minigame';
 import { ITEM_WEAPON_ADDRESS, ITEM_WEAPON_ABI } from '../contracts/ItemWeapon';
-import { Anchor, HelpCircle, Coins, Trash2, Fish, Wallet, AlertTriangle, Store, ArrowRightLeft } from 'lucide-react';
+import { Anchor, HelpCircle, Coins, Wallet, AlertTriangle, Store, ArrowRightLeft, Volume2, VolumeX } from 'lucide-react';
 
 const BACKGROUND_IMAGE = ""; // Paste Background image URL here
 const ROD_IMAGE = ""; // Paste Rod image URL here
@@ -74,6 +74,25 @@ export default function FishingGame() {
   const [shopTab, setShopTab] = useState<'RODS' | 'EXCHANGE'>('RODS');
   const [ownedRods, setOwnedRods] = useState<number[]>([0]);
   const [currentRod, setCurrentRod] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2; // Set volume to 20% (เบาๆ)
+    }
+  }, []);
+
+  const toggleBgm = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio play error:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   useEffect(() => {
     // Attempt auto connect if previously connected
@@ -112,6 +131,10 @@ export default function FishingGame() {
   };
 
   const startFishing = () => {
+    if (audioRef.current && !isPlaying) {
+      audioRef.current.play().catch(e => console.error("Audio play error:", e));
+      setIsPlaying(true);
+    }
     setGameState('WAITING');
     setErrorMsg("");
     
@@ -186,7 +209,8 @@ export default function FishingGame() {
   };
 
   return (
-    <div className="relative w-full h-screen bg-slate-950 text-slate-100 font-sans flex flex-col overflow-hidden border-8 border-slate-900 mx-auto z-0 max-w-[1024px]">
+    <div className="relative w-full h-screen bg-slate-950 text-slate-100 font-sans flex flex-col overflow-hidden z-0">
+      <audio ref={audioRef} src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" loop />
       
       {/* Background Parallax / Scenery Simulation */}
       <div 
@@ -197,8 +221,14 @@ export default function FishingGame() {
       {/* Header UI */}
       <nav className="h-16 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 flex items-center justify-between px-6 z-20 absolute top-0 left-0 right-0">
         <div className="flex items-center gap-3">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <img src="https://res.cloudinary.com/doi1go8uu/image/upload/v1777377433/%E0%B8%8A%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%A1_d2tqz6.png" alt="Game Logo" className="h-[50px] drop-shadow-md object-contain" />
+            <button 
+              onClick={toggleBgm}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 transition-colors shadow-lg"
+            >
+              {isPlaying ? <Volume2 size={18} /> : <VolumeX size={18} className="text-slate-400" />}
+            </button>
           </div>
         </div>
 
@@ -267,7 +297,7 @@ export default function FishingGame() {
           >
            <button 
              onClick={startFishing}
-             className="relative group bg-white hover:bg-slate-200 text-slate-900 text-2xl font-black py-4 px-12 rounded-xl shadow-lg shadow-white/10 transition-all active:scale-95 mb-4 uppercase tracking-tighter"
+             className="relative group bg-white hover:bg-slate-200 text-slate-900 text-2xl font-black py-4 px-12 rounded-xl shadow-lg shadow-white/10 transition-all active:scale-95 mb-4 uppercase tracking-tighter border-4 border-slate-300"
            >
              CAST LINE
            </button>
