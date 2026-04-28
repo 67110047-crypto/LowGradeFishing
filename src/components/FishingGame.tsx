@@ -215,7 +215,7 @@ export default function FishingGame() {
       {/* Background Parallax / Scenery Simulation */}
       <div 
         className="absolute inset-0 pointer-events-none z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('https://res.cloudinary.com/doi1go8uu/image/upload/v1777386864/Untitled1660_20260428213258_aphgrs.png')` }}
+        style={{ backgroundImage: `url('https://res.cloudinary.com/doi1go8uu/image/upload/v1777389444/Untitled1660_20260428220853_vws6fz.png')` }}
       ></div>
 
       {/* Header UI */}
